@@ -662,6 +662,8 @@ siege -c200 -t60S -r10 -v --content-type "application/json" 'http://drivercall:8
 kubectl get deploy drivercall -w -n skuser08ns
 ```
 - 어느정도 시간이 흐른 후 스케일 아웃이 벌어지는 것을 확인할 수 있다. max=10 
+![스트레스테스트](screenshots/autoscalepods.png "replica")
+
 - 부하를 줄이니 늘어난 스케일이 점점 줄어들었다.
 ![스트레스테스트](screenshots/autoscale3.png "replica")
 
@@ -674,14 +676,13 @@ kubectl get deploy drivercall -w -n skuser08ns
 * 먼저 무정지 재배포가 100% 되는 것인지 확인하기 위해서 Autoscale 이나 CB 설정을 제거함
 
 
-- seige 로 배포작업 직전에 워크로드를 모니터링 함.
+- seige 로 배포작업 직전에 워크로드를 모니터링 함. 실행 중간에 배포를 진행 하여 확인 함
 ```
 kubectl apply -f kubernetes/deployment_readiness.yml
 ```
 - readiness 옵션이 없는 경우 배포 중 서비스 요청처리 실패
 
-![image](https://user-images.githubusercontent.com/73699193/98105334-2a394700-1edb-11eb-9633-f5c33c5dee9f.png)
-
+![스트레스테스트](screenshots/readinessavail.png "readinessavail")
 
 - deployment.yml에 readiness 옵션을 추가 
 
