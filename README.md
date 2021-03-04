@@ -350,7 +350,7 @@ public class DrivermanageServiceFallback implements DrivermanageService {
 
 - drivercall에서 다음과 같이 전화번호가 있을 경우, drivermanage를 호출 하도록 합니다.
 ```
-# 택시호출.java
+# Drivercall.java
 
   @PostPersist
     public void onPostPersist(){
@@ -384,7 +384,7 @@ public class DrivermanageServiceFallback implements DrivermanageService {
 
 ![동기식2](screenshots/sync_call2.png "sync_call2")
 
-- 따라서, 동기식 호출 적용으로 대리기사관리 시스템이 정상적이지 않으면 , 대리기사 호출도 접수될 수 없음을 확인합니다 
+- 동기식 호출 적용으로 대리기사관리 시스템이 정상적이지 않으면 , 대리기사 호출도 접수될 수 없음을 확인합니다 
 ```
 소스를 다음과 같이 바꾸고
 @FeignClient(name="drivermanage", url="http://localhost:8082")//, fallback = DrivermanageServiceFallback.class)
@@ -395,7 +395,7 @@ public interface DrivermanageService {
 
 }
 
-# 대리기사관리 시스템 down 후 대리기사를 호출 
+# 대리기사관리 시스템 down 후 대리기사를 호출하면, 대리기사호출 시스템에서 500 오류가 발생 합니다.
 
 #drivercall
 
@@ -405,16 +405,18 @@ http http://localhost:8088/driverscalls/ tel="01012345678" location="마포아�
 ![동기식2](screenshots/drivermanagedown_no_fallback.png "sync_call2")
 
 ```
-# 대리기사 관리 (taximanage) 재기동 후 호출진행
+# 대리기사 관리시스템 (drivermanage) 재기동 후 호출을 진행 하면 정상동작합니다.
 
 http http://localhost:8088/driverscalls/ tel="01012345678" location="마포아파트" status="호출" cost=30000
 ```
 
 ![동기식2](screenshots/restart_no_fallback.png "sync_call2")
 
--fallback 
+-서킷브레이크와 fallback 
+
+다시 소스를 아래와 같이 바꾸고
+
 ```
-소스를 다음과 같이 바꾸고
 @FeignClient(name="drivermanage", url="http://localhost:8082"), fallback = DrivermanageServiceFallback.class)
 public interface DrivermanageService {
 
@@ -423,13 +425,15 @@ public interface DrivermanageService {
 
 }
 
-# 대리기사관리 시스템 down 후 대리기사를 호출 
+대리기사관리 시스템 down 후 대리기사호출 시스템을 호출 하면 
 
 #drivercall
 
 http http://localhost:8088/driverscalls/ tel="01012345678" location="마포아파트" status="호출" cost=30000
-서비스에서는 영향이 없으며 서킷브레이크가 발생 하여 fallback 됩니다.
-대리기사 호출확정 되지 않음.
+```
+서비스에서는 영향이 없으며, 다음과 같이 서킷브레이크가 발생 하여 fallback 됩니다.
+(대리기사 호출확정 되지 않음)
+
 ```
 ![fallback캡쳐](screenshots/fallback1.png "fallback1")
 
