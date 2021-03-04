@@ -203,7 +203,7 @@ pause ..
 ## 폴리글랏 퍼시스턴스
 
 ```
-위치 : /taxiguider>taximanage>pom.xml
+위치 : /drivercenter>drivermanage>pom.xml
 ```
 ![폴리그랏DB_최종](https://user-images.githubusercontent.com/7607807/109992243-6d52dc00-7d4e-11eb-8a5b-caf920dc12a7.png)
 
@@ -211,8 +211,8 @@ pause ..
 
 ## 폴리글랏 프로그래밍 - 파이썬
 ```
-로컬용 위치 : /taxiguider_py>cutomer>policy-handler-local.py
-클라우드용 위치 : /taxiguider_py>cutomer>policy-handler.py
+로컬용 위치 : /drivercenter>cutomer>policy-handler-local.py
+클라우드용 위치 : /drivercenter>cutomer>policy-handler.py
 ```
 ![python_local](https://user-images.githubusercontent.com/7607807/109992511-aee38700-7d4e-11eb-95a2-db701b745ed9.png)
 
@@ -220,14 +220,13 @@ pause ..
 
 ## 마이크로 서비스 호출 흐름
 
-- taxicall 서비스 호출처리
-호출(taxicall)->택시관리(taximanage) 간의 호출처리 됨.
-택시 할당에서 택시기사를 할당하여 호출 확정 상태가 됨.
-두 개의 호출 상태
-를 만듬.
+- drivercall 서비스 호출처리
+대리기사호출(drivercall)->대리기사관리(drivermanage) 간의 호출처리 됨.
+대리기사할당 서비스에서 대리기사를 할당하면 대리기사 호출에서는 호출 확정 상태가 됨.
+서비스를 확인 하기 위해서 다음과 같이 두 개의 호출 상태를 만듬.
 ```
-http localhost:8081/택시호출s 휴대폰번호="01012345678" 호출상태=호출 호출위치="마포" 예상요금=25000
-http localhost:8081/택시호출s 휴대폰번호="01056789012" 호출상태=호출 호출위치="서대문구" 예상요금=30000
+http localhost:8081/drivercalls tel="01012345678" status=호출 location="마포" cost=25000
+http localhost:8081/drivercalls tel="01056789012" status=호출 location="서대문구" cost=30000
 ```
 
 ![image](screenshots/taxicall1.png "taxicall 서비스 호출")
