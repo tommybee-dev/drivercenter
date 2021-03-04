@@ -645,7 +645,7 @@ drivercall > deployment.yml 설정
 ![image](https://user-images.githubusercontent.com/73699193/98187434-44fbd200-1f54-11eb-9859-daf26f812788.png)
 
 ```
-kubectl autoscale deploy drivercall --min=1 --max=10 --cpu-percent=15
+kubectl autoscale deploy drivercall --min=1 --max=2 --cpu-percent=15
 ```
 ![스트레스테스트](screenshots/replica.png "replica")
 
@@ -770,7 +770,7 @@ http POST http://app:8080/orders item=dfdf2 qty=22
 
 - deployment.yml 에 Liveness Probe 옵션 추가
 ```
-cd ~/phone82/store/kubernetes
+cd ~/drivercenter/drivercall/kubernetes
 vi deployment.yml
 
 (아래 설정 변경)
@@ -780,11 +780,11 @@ livenessProbe:
 	initialDelaySeconds: 5
 	periodSeconds: 5
 ```
-![image](https://user-images.githubusercontent.com/27958588/98096375-0839c780-1ecf-11eb-85fb-00e8252aa84a.jpg)
+![스트레스테스트](screenshots/livenessProbe.png "livenessProbe")
 
 - store pod에 liveness가 적용된 부분 확인
 
-![image](https://user-images.githubusercontent.com/27958588/98096393-0a9c2180-1ecf-11eb-8ac5-f6048160961d.jpg)
+![스트레스테스트](screenshots/livenessProbe2.png "livenessProbe")
 
 - store 서비스의 liveness가 발동되어 13번 retry 시도 한 부분 확인
 
