@@ -636,25 +636,24 @@ siege -c200 -t60S -r10 -v --content-type "application/json" 'http://drivercall:8
 
 ### 오토스케일 아웃
 
-- 대리점 시스템에 대한 replica 를 동적으로 늘려주도록 HPA 를 설정한다. 설정은 CPU 사용량이 15프로를 넘어서면 replica 를 10개까지 늘려준다:
+- 대리기사호출 시스템에 대한 replica 를 동적으로 늘려주도록 HPA 를 설정한다. 설정은 CPU 사용량이 15프로를 넘어서면 replica 를 10개까지 늘려준다:
 
 ```
 # autocale out 설정
-store > deployment.yml 설정
+drivercall > deployment.yml 설정
 ```
 ![image](https://user-images.githubusercontent.com/73699193/98187434-44fbd200-1f54-11eb-9859-daf26f812788.png)
 
 ```
-kubectl autoscale deploy store --min=1 --max=10 --cpu-percent=15 -n phone82
+kubectl autoscale deploy drivercall --min=1 --max=10 --cpu-percent=15
 ```
-![image](https://user-images.githubusercontent.com/73699193/98100149-ce1ef480-1ed3-11eb-908e-a75b669d611d.png)
-
+![스트레스테스트](screenshots/replica.png "replica")
 
 -
 - CB 에서 했던 방식대로 워크로드를 2분 동안 걸어준다.
 ```
-kubectl exec -it pod/siege-5c7c46b788-4rn4r -c siege -n phone82 -- /bin/bash
-siege -c100 -t120S -r10 -v --content-type "application/json" 'http://store:8080/storeManages POST {"orderId":"456", "process":"Payed"}'
+kubectl exec -it pod/siege -c siege -n skuser08ns -- /bin/bash
+siege -c200 -t60S -r10 -v --content-type "application/json" 'http://drivercall:8080/drivercalls/ POST {"tel": "1234567890", "cost":3000}'
 ```
 ![image](https://user-images.githubusercontent.com/73699193/98102543-0d9b1000-1ed7-11eb-9cb6-91d7996fc1fd.png)
 

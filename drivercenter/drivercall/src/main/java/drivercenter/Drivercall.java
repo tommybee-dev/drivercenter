@@ -55,7 +55,7 @@ public class Drivercall {
     	
     	
     	try {
-			Thread.sleep(2*60*60);
+			Thread.sleep(60000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
