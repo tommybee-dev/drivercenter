@@ -482,7 +482,7 @@ http http://localhost:8088/driverscalls/ tel="01012345678" location="마포아�
 
 # 운영
 
-## Deploy / Pipeline
+## 클라우드배포 / 운영파이프라인
 
 - az login
 ```
@@ -503,38 +503,31 @@ http http://localhost:8088/driverscalls/ tel="01012345678" location="마포아�
 ```
 
 
-- account set 
-```
-az account set --subscription "종량제2"
-```
-
-
 - 리소스그룹생성
 ```
-그룹명 : skccteam03-rsrcgrp
+그룹명 : skuser08-rsrcgrp
 ```
 
 
 - 클러스터 생성
 ```
-클러스터 명 : skccteam03-aks
+클러스터 명 : skuser08-aks
 ```
 
 - 토큰 가져오기
 ```
-az aks get-credentials --resource-group skccteam03-rsrcgrp --name skccteam03-aks
+az aks get-credentials --resource-group skuser08-rsrcgrp --name skuser08-aks
 ```
 
 - aks에 acr 붙이기
 ```
-az aks update -n skccteam03-aks -g skccteam03-rsrcgrp --attach-acr skccteam03
+az aks update -n skuser08-aks -g skuser08-rsrcgrp --attach-acr skuser08
 ```
 
-![aks붙이기](https://user-images.githubusercontent.com/78134019/109653395-540e2c00-7ba4-11eb-97dd-2dcfdf5dc539.jpg)
+![aks붙이기](screenshots/aks_stitch.png "aks_stitch")
 
 
-
--deployment.yml을 사용하여 배포 
+- deployment.yml을 사용하여 배포 
 --> 도커 이미지 만들기 붙이기 
 - deployment.yml 편집
 ```
@@ -544,27 +537,18 @@ readiness 설정 (무정지 배포)
 liveness 설정 (self-healing)
 resource 설정 (autoscaling)
 ```
-![deployment_yml](https://user-images.githubusercontent.com/78134019/109652001-9171ba00-7ba2-11eb-8c29-7128ceb4ec97.jpg)
+![aks붙이기](screenshots/deployment.png "deployment")
 
 - deployment.yml로 서비스 배포
 ```
-cd app
-kubectl apply -f kubernetes/deployment.yml
+cd ../../
+cd customer/kubernetes
+kubectl apply -f deployment.yml --namespace=skuser08ns
+kubectl apply -f service.yaml --namespace=skuser08ns
+..이하 생략
 ```
-<Deploy cutomer>
-![deploy_customer](https://user-images.githubusercontent.com/78134019/109744443-a471a200-7c15-11eb-94c9-a0c0a7999d04.png)
+![aks붙이기](screenshots/deployment_all.png "deployment")
 
-<Deploy gateway>
-![deploy_gateway](https://user-images.githubusercontent.com/78134019/109744457-acc9dd00-7c15-11eb-8502-ff65e779e9d2.png)
-
-<Deploy taxiassign>
-![deploy_taxiassign](https://user-images.githubusercontent.com/78134019/109744471-b3585480-7c15-11eb-8d68-bba9c3d8ce01.png)
-
-<Deploy taxicall>
-![deploy_taxicall](https://user-images.githubusercontent.com/78134019/109744487-bb17f900-7c15-11eb-8bd0-ff0a9fc9b2e3.png)
-
-<Deploy_taximanage>
-![deploy_taximanage](https://user-images.githubusercontent.com/78134019/109744591-e69ae380-7c15-11eb-834a-44befae55092.png)
 
 ## 동기식 호출 / 서킷 브레이킹 / 장애격리
 
