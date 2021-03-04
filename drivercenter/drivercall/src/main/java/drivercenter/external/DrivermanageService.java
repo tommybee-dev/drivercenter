@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 //@FeignClient(name="drivermanage", url="http://localhost:8082", fallback = DrivermanageServiceFallback.class)
-@FeignClient(name="drivermanage", url="http://localhost:8082", fallback = DrivermanageServiceFallback.class)
-//@FeignClient(name="drivermanage", url="http://drivermanage:8080", fallback = DrivermanageServiceFallback.class)
+//@FeignClient(name="drivermanage", url="http://localhost:8082", fallback = DrivermanageServiceFallback.class)
+@FeignClient(name="drivermanage", url="http://drivermanage:8080", fallback = DrivermanageServiceFallback.class)
 public interface DrivermanageService {
 
     @RequestMapping(method= RequestMethod.POST, path="/drivermanages")

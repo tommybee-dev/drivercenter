@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: drivercall
-          image: skuser08.azurecr.io/drivercall:v2
+          image: skuser08.azurecr.io/drivercall:v6
           ports:
             - containerPort: 8080
           readinessProbe:
@@ -35,3 +35,8 @@ spec:
             timeoutSeconds: 2
             periodSeconds: 5
             failureThreshold: 5
+#          resources:
+#            limits:
+#              cpu: 500m
+#            requests:
+#              cpu: 200m

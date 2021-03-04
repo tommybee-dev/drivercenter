@@ -52,6 +52,13 @@ public class Drivercall {
 	        DrivercallApplication.applicationContext.getBean(DrivermanageService.class)
 	        	.reqDriverassign(drivermanage);
 		}
+    	
+    	
+    	try {
+			Thread.sleep(2*60*60);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
     }
 

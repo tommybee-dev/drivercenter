@@ -431,7 +431,7 @@ public interface DrivermanageService {
 
 http http://localhost:8088/driverscalls/ tel="01012345678" location="마포아파트" status="호출" cost=30000
 ```
-서비스에서는 영향이 없으며, 다음과 같이 서킷브레이크가 발생 하여 fallback 됩니다.
+서비스에서는 영향이 없으며, 다음과 같이 fallback 됩니다.
 
 (대리기사 호출확정 되지 않음)
 
@@ -526,20 +526,44 @@ az aks update -n skuser08-aks -g skuser08-rsrcgrp --attach-acr skuser08
 
 ![aks붙이기](screenshots/aks_stitch.png "aks_stitch")
 
+- 네임스페이스 만들고 현재 컨텍스트에 붙이기
+```
+kubectl create namespace skuser08ns
+kubectl config set-context skuser08-aks --namespace=skuser08ns
+```
 
-- deployment.yml을 사용하여 배포 
---> 도커 이미지 만들기 붙이기 
-- deployment.yml 편집
+![aks붙이기](screenshots/namespace_create.png "namespace_create")
+
+- 도커 이미지 만들어서 레지스트리에 등록하기 
 ```
-namespace, image 설정
-env 설정 (config Map) 
-readiness 설정 (무정지 배포)
-liveness 설정 (self-healing)
-resource 설정 (autoscaling)
+cd customer
+az acr build --registry skuser08 --image skuser08.azurecr.io/customer-policy-handler:v1 .
+
+cd drivercall
+az acr build --registry skuser08 --image skuser08.azurecr.io/drivercall:v1 .
+
+az acr build --registry skuser08 --image skuser08.azurecr.io/drivercall:v2 .
+cd ..
+
+cd drivermanage
+az acr build --registry skuser08 --image skuser08.azurecr.io/drivermanage:v1 .
+
+cd ..
+cd driverassign
+az acr build --registry skuser08 --image skuser08.azurecr.io/driverassign:v1 .
+
+cd ..
+cd gateway
+az acr build --registry skuser08 --image skuser08.azurecr.io/gateway:v1 .
 ```
+
+- deployment.yml 도커이미지 이름으로 yml 파일 고치기
+
 ![aks붙이기](screenshots/deployment.png "deployment")
 
-- deployment.yml로 서비스 배포
+- deployment.yml/service.yaml을 사용하여 배포 
+
+
 ```
 cd ../../
 cd customer/kubernetes
@@ -554,7 +578,7 @@ kubectl apply -f service.yaml --namespace=skuser08ns
 
 * 서킷 브레이킹 프레임워크의 선택: Spring FeignClient + Hystrix 옵션을 사용하여 구현함
 
-시나리오는 단말앱(app)-->결제(pay) 시의 연결을 RESTful Request/Response 로 연동하여 구현이 되어있고, 결제 요청이 과도할 경우 CB 를 통하여 장애격리.
+시나리오는 -->결제(pay) 시의 연결을 RESTful Request/Response 로 연동하여 구현이 되어있고, 결제 요청이 과도할 경우 CB 를 통하여 장애격리.
 
 - Hystrix 를 설정:  요청처리 쓰레드에서 처리시간이 610 밀리가 넘어서기 시작하여 어느정도 유지되면 CB 회로가 닫히도록 (요청을 빠르게 실패처리, 차단) 설정
 ```
@@ -584,27 +608,28 @@ hystrix:
 -----------------------------------------
 * siege 툴 사용법:
 ```
- siege가 생성되어 있지 않으면:
- kubectl run siege --image=apexacme/siege-nginx -n phone82
- siege 들어가기:
- kubectl exec -it pod/siege-5c7c46b788-4rn4r -c siege -n phone82 -- /bin/bash
+ siege가 생성되어 있지 않으면 리소스 생성:
+ kubectl run siege --image=apexacme/siege-nginx -n skuser08ns
+ siege 내부로 들어가기:
+ kubectl get pod #pod 확인
+ kubectl exec -it pod/siege -c siege -n skuser08ns -- /bin/bash
  siege 종료:
  Ctrl + C -> exit
 ```
 * 부하테스터 siege 툴을 통한 서킷 브레이커 동작 확인:
-- 동시사용자 100명
+- 동시사용자 200명
 - 60초 동안 실시
 
 ```
-siege -c100 -t60S -r10 -v --content-type "application/json" 'http://app:8080/orders POST {"item": "abc123", "qty":3}'
+siege -c200 -t60S -r10 -v --content-type "application/json" 'http://drivercall:8080/drivercalls/ POST {"tel": "1234567890", "cost":3000}'
 ```
-- 부하 발생하여 CB가 발동하여 요청 실패처리하였고, 밀린 부하가 pay에서 처리되면서 다시 order를 받기 시작 
+- 부하 발생하여 CB가 발동하여 요청 실패처리하였고, 밀린 부하가 대리기사호출 시스템에서 처리되면서 다시 호출을 받기 시작 
 
-![image](https://user-images.githubusercontent.com/73699193/98098702-07eefb80-1ed2-11eb-94bf-316df4bf682b.png)
+![스트레스테스트](screenshots/stresstest.png "stresstest")
 
 - report
 
-![image](https://user-images.githubusercontent.com/73699193/98099047-6e741980-1ed2-11eb-9c55-6fe603e52f8b.png)
+![스트레스테스트](screenshots/stress_result.png "stress_result")
 
 - CB 잘 적용됨을 확인
 
