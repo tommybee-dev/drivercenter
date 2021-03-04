@@ -195,18 +195,16 @@ pause ..
 ## DDD 의 적용
 총 3개의 Domain 으로 관리되고 있으며, drivercall(대리기사요청) , drivermanage(대리기사관리), driverassign(대리기사할당) 으로 구성됩니다. 
 
-![drivercall](https://user-images.githubusercontent.com/7607807/109992057-3bda1080-7d4e-11eb-8485-2494c0ea8902.png)
+![image](screenshots/drivercall.png "Driver call domain")
 
-![drivercall2](https://user-images.githubusercontent.com/7607807/109992060-3c72a700-7d4e-11eb-89aa-cc112839e499.png)
-
+![image](screenshots/drivercall2.png "Driver call domain")
 
 ## 폴리글랏 퍼시스턴스
 
 ```
 위치 : /drivercenter>drivermanage>pom.xml
 ```
-![폴리그랏DB_최종](https://user-images.githubusercontent.com/7607807/109992243-6d52dc00-7d4e-11eb-8a5b-caf920dc12a7.png)
-
+![폴리그랏DB_최종](screenshots/hsqldb.png "hsqldb")
 
 
 ## 폴리글랏 프로그래밍 - 파이썬
@@ -214,9 +212,9 @@ pause ..
 로컬용 위치 : /drivercenter>cutomer>policy-handler-local.py
 클라우드용 위치 : /drivercenter>cutomer>policy-handler.py
 ```
-![python_local](https://user-images.githubusercontent.com/7607807/109992511-aee38700-7d4e-11eb-95a2-db701b745ed9.png)
+![python_local](screenshots/python_local.png "python_local")
 
-![python_external](https://user-images.githubusercontent.com/7607807/109992696-de928f00-7d4e-11eb-8cbd-19c02f8a000c.png)
+![python_external](screenshots/python_external.png "python_external")
 
 ## 마이크로 서비스 호출 흐름
 
