@@ -240,34 +240,33 @@ http localhost:8081/drivercalls tel="01056789012" status=호출 location="서대
 ![image](screenshots/drivermanage_contents.png "drivercall 서비스 호출 결과 - 택시관리")
 
 
-- taxicall 서비스 호출 취소 처리
+- drivercall 서비스 호출 취소 처리
 
-호출 취소는 택시호출에서 다음과 같이 호출 하나를 취소 함으로써 진행 함.
+대리기사호출 취소는 대리기사호출에서 다음과 같이 호출 하나를 취소 함으로써 진행 할 수 있음.
 
 ```
-http delete http://localhost:8081/택시호출s/1
+http delete http://localhost:8081/drivercalls/1
 HTTP/1.1 204
 Date: Tue, 02 Mar 2021 16:59:12 GMT
 ```
-호출이 취소 되면 택시 호출이 하나가 삭제 되었고, 
+호출이 취소 되면 대리기사 호출이 하나가 삭제 되었고, 
 
 ```
-http localhost:8081/택시호출s/
+http localhost:8081/drivercalls/
 ```
-![image](screenshots/taxicancel_result.png "taxicall 서비스 호출취소 결과")
+![image](screenshots/drivercancel_result.png "drivercall 서비스 호출취소 결과")
 
 
-택시관리에서는 해당 호출에 대해서 호출취소로 상태가 변경 됨.
+대리기사관리에서는 해당 호출에 대해서 대리기사호출취소로 상태가 변경 됨.
 
 ```
-http localhost:8082/택시관리s/
+http localhost:8082/drivermanages/
 ```
 ![image](screenshots/taximanage_result.png "taxicall 서비스 호출취소 결과")
 
 - 고객 메시지 서비스 처리
-고객(customer)는 호출 확정과 할당 확정에 대한 메시지를 다음과 같이 받을 수 있으며,
-할당 된 택시기사의 정보를 또한 확인 할 수 있다.
-파이썬으로 구현 하였음.
+고객(customer)는 대리기사 호출 확정과 할당 확정에 대한 메시지를 다음과 같이 받을 수 있으며,
+할당 된 대리기사의 정보를 또한 확인 할 수 있습니다(파이썬 구현).
 
 ![image](screenshots/customer.png "호출 결과에 대한 고객 메시지")
 
@@ -276,9 +275,9 @@ http localhost:8082/택시관리s/
 
 서비스에 대한 하나의 접점을 만들기 위한 게이트웨이의 설정은 8088로 설정 하였으며, 다음 마이크로서비스에 대한 설정 입니다.
 ```
-택시호출 서비스 : 8081
-택시관리 서비스 : 8082
-택시호출 서비스 : 8083
+대리기사호출 서비스 : 8081
+대리기사관리 서비스 : 8082
+대리기사할당 서비스 : 8083
 ```
 
 gateway > applitcation.yml 설정
