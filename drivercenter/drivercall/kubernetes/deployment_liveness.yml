@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: store
-  namespace: phone82
+  name: drivercall
+#  namespace: skuser08ns
   labels:
-    app: store
+    app: drivercall
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: store
+      app: drivercall
   template:
     metadata:
       labels:

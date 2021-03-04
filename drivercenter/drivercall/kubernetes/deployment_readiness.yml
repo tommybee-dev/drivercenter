@@ -17,7 +17,6 @@ spec:
     spec:
       containers:
         - name: store
-#          image: username/store:latest
           image: skuser08.azurecr.io/drivercall:v9
           ports:
             - containerPort: 8080
