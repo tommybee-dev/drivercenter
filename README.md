@@ -759,11 +759,6 @@ http http://52.231.77.197:8080/drivercalls/ tel="01012345678" location="마포�
 ![스트레스테스트](screenshots/error0.png "error0")
 
 ![스트레스테스트](screenshots/error.png "error")
-![image](https://user-images.githubusercontent.com/73699193/98110323-42f92b00-1ee2-11eb-90f3-fe8044085e9d.png)
-
-![image](https://user-images.githubusercontent.com/73699193/98110445-720f9c80-1ee2-11eb-851e-adcd1f2f7851.png)
-
-![image](https://user-images.githubusercontent.com/73699193/98110782-f4985c00-1ee2-11eb-97a7-1fed3c6b042c.png)
 
 
 
