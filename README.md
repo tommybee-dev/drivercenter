@@ -212,7 +212,10 @@ pause ..
 로컬용 위치 : /drivercenter>cutomer>policy-handler-local.py
 클라우드용 위치 : /drivercenter>cutomer>policy-handler.py
 ```
+로컬용
+
 ![python_local](screenshots/python_local.png "python_local")
+클라우드용
 
 ![python_external](screenshots/python_external.png "python_external")
 
@@ -227,14 +230,14 @@ http localhost:8081/drivercalls tel="01012345678" status=호출 location="마포
 http localhost:8081/drivercalls tel="01056789012" status=호출 location="서대문구" cost=30000
 ```
 
-![image](screenshots/taxicall1.png "taxicall 서비스 호출")
-![image](screenshots/taxicall2.png "taxicall 서비스 호출")
+![image](screenshots/drivercall_req1.png "drivercall 서비스 호출")
+![image](screenshots/drivercall_req2.png "drivercall 서비스 호출")
 
 호출 결과는 모두 택시 할당(taxiassign)에서 택시기사의 할당으로 처리되어 호출 확정 상태가 되어 있음.
 
-![image](screenshots/taxicall_result1.png "taxicall 서비스 호출 결과")
-![image](screenshots/taxicall_result2.png "taxicall 서비스 호출 결과")
-![image](screenshots/taximanage_result1.png "taxicall 서비스 호출 결과 - 택시관리")
+![image](screenshots/drivercall_res1.png "drivercall 서비스 호출 결과")
+![image](screenshots/drivercall_res2.png "drivercall 서비스 호출 결과")
+![image](screenshots/drivermanage_contents.png "drivercall 서비스 호출 결과 - 택시관리")
 
 
 - taxicall 서비스 호출 취소 처리
