@@ -686,7 +686,7 @@ kubectl apply -f kubernetes/deployment_readiness.yml
 
 - deployment.yml에 readiness 옵션을 추가 
 
-![image](https://user-images.githubusercontent.com/73699193/98107176-75ecf000-1edd-11eb-88df-617c870b49fb.png)
+![스트레스테스트](screenshots/readinessapply.png "readinessavail")
 
 - readiness적용된 deployment.yml 적용
 
@@ -696,16 +696,20 @@ kubectl apply -f kubernetes/deployment.yml
 - 새로운 버전의 이미지로 교체
 ```
 cd acr
-az acr build --registry admin02 --image admin02.azurecr.io/store:v4 .
-kubectl set image deploy store store=admin02.azurecr.io/store:v4 -n phone82
+az acr build --registry skuser08 --image skuser08.azurecr.io/drivercall:v10 .
+kubectl set image deploy drivercall drivercall=skuser08.azurecr.io/drivercall:v10 -n skuser08ns
 ```
 - 기존 버전과 새 버전의 store pod 공존 중
 
-![image](https://user-images.githubusercontent.com/73699193/98106161-65884580-1edc-11eb-9540-17a3c9bdebf3.png)
+```
+watch kubectl get all
+```
+
+![스트레스테스트](screenshots/duplicated.png "duplicated")
 
 - Availability: 100.00 % 확인
 
-![image](https://user-images.githubusercontent.com/73699193/98106524-c152ce80-1edc-11eb-8e0f-3731ca2f709d.png)
+![스트레스테스트](screenshots/completed.png "completed")
 
 
 
