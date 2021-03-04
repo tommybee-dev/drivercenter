@@ -443,39 +443,39 @@ http http://localhost:8088/driverscalls/ tel="01012345678" location="마포아�
 ## 비동기식 호출 / 장애격리  / 성능
 
 대리기사관리(drivermanage)와 대리기사 할당(driverassgine) 은 비동기식 처리이므로 , 대리기사 호출(drivercall) 의 서비스 호출에는 영향이 없다
- 
-대리기사 호출(drivercall) 후 상태가 [호출]->[호출중] 로 변경되고 할당이 완료되면 [호출확정] 로 변경이 되지만 , 대리기사 할당(driverassgine)이 정상적이지 않으면 [호출중]로 남아있음. 
+대신, 대리기사 할당(driverassgine)이 정상적이지 않으면
+대리기사 호출(drivercall) 후 상태가 [호출]->[호출중] 로 변경되고 할당이 완료되면 [호출확정] 로 변경이 되지만 , 
+ 대리기사 호출(drivercall)은 여전히 [호출중]로 남아있음. 
 --> (시간적 디커플링)
 <고객 대리기사호출 drivercall>
-![비동기_호출2](https://user-images.githubusercontent.com/78134019/109468467-f4365900-7aaf-11eb-877a-049637b5ee6a.png)
+![비동기_호출1](screenshots/async1.png "fallback2")
 
 <택시 할당이 정상적이지 않아 호출중으로 남아있음>
-![택시호출_택시할당없이_조회](https://user-images.githubusercontent.com/78134019/109471791-99ebc700-7ab4-11eb-924f-03715de42eba.png)
+![비동기_호출1](screenshots/async2.png "fallback2")
 
 
 
 ## 성능 조회 / View 조회
 고객이 호출한 모든 정보는 조회가 가능하다. 
 
-![고객View](https://user-images.githubusercontent.com/78134019/109483385-80ea1280-7ac2-11eb-9419-bf3ff5a0dbbc.png)
+![고객View](screenshots/customerview.png "customerview")
 
 
----mvn MSA Service
+## MSA 서비스 빌드
 <gateway>
+![mvn_gateway](screenshots/mvn_gateway.png "mvn_gateway")
 	
-![mvn_gateway](https://user-images.githubusercontent.com/78134019/109744124-244b3c80-7c15-11eb-80a9-bed42413aa58.png)
+<drivercall>
 	
-<taxicall>
-	
-![mvn_taxicall](https://user-images.githubusercontent.com/78134019/109744165-31682b80-7c15-11eb-9d94-7bc23efca6b6.png)
+![mvn_drivercall](screenshots/mvn_drivercall.png "mvn_drivercall")
 
-<taximanage>
+<drivermanage>
 	
-![mvn_taximanage](https://user-images.githubusercontent.com/78134019/109744195-3b8a2a00-7c15-11eb-9554-1c3ba088af52.png)
+![mvn_drivermanage](screenshots/mvn_drivermanage.png "mvn_drivermanage")
 
-<taxiassign>
+<driverassign>
 	
-![mvn_taxiassign](https://user-images.githubusercontent.com/78134019/109744226-46dd5580-7c15-11eb-8b47-5100ed01e3ae.png)
+![mvn_driverassign](screenshots/mvn_driverassign.png "mvn_driverassign")
 
 
 # 운영
