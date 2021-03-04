@@ -432,20 +432,21 @@ public interface DrivermanageService {
 http http://localhost:8088/driverscalls/ tel="01012345678" location="마포아파트" status="호출" cost=30000
 ```
 서비스에서는 영향이 없으며, 다음과 같이 서킷브레이크가 발생 하여 fallback 됩니다.
+
 (대리기사 호출확정 되지 않음)
 
-```
 ![fallback캡쳐](screenshots/fallback1.png "fallback1")
 
 ![fallback캡쳐](screenshots/fallback2.png "fallback2")
 
+
 ## 비동기식 호출 / 장애격리  / 성능
 
-택시 관리 (Taxi manage) 이후 택시 할당(Taxi Assign) 은 비동기식 처리이므로 , 택시 호출(Taxi call) 의 서비스 호출에는 영향이 없다
+대리기사관리(drivermanage)와 대리기사 할당(driverassgine) 은 비동기식 처리이므로 , 대리기사 호출(drivercall) 의 서비스 호출에는 영향이 없다
  
-고객이 택시 호출(Taxi call) 후 상태가 [호출]->[호출중] 로 변경되고 할당이 완료되면 [호출확정] 로 변경이 되지만 , 택시 할당(Taxi Assign)이 정상적이지 않으므로 [호출중]로 남아있음. 
+대리기사 호출(drivercall) 후 상태가 [호출]->[호출중] 로 변경되고 할당이 완료되면 [호출확정] 로 변경이 되지만 , 대리기사 할당(driverassgine)이 정상적이지 않으면 [호출중]로 남아있음. 
 --> (시간적 디커플링)
-<고객 택시 호출 Taxi call>
+<고객 대리기사호출 drivercall>
 ![비동기_호출2](https://user-images.githubusercontent.com/78134019/109468467-f4365900-7aaf-11eb-877a-049637b5ee6a.png)
 
 <택시 할당이 정상적이지 않아 호출중으로 남아있음>
