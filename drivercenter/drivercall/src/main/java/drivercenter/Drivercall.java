@@ -28,10 +28,6 @@ public class Drivercall {
 	
     @PostPersist
     public void onPostPersist(){
-//        택시호출요청됨 택시호출요청됨 = new 택시호출요청됨();
-//        BeanUtils.copyProperties(this, 택시호출요청됨);
-//        택시호출요청됨.publishAfterCommit();
-    	
     	System.out.println("휴대폰번호 " + getTel());
         System.out.println("호출위치 " + getLocation());
         System.out.println("호출상태 " + getStatus());
@@ -53,7 +49,7 @@ public class Drivercall {
 	        	drivermanage.setCost(getCost());
 	        
 	        // mappings goes here
-	        TaxicallApplication.applicationContext.getBean(DrivermanageService.class)
+	        DrivercallApplication.applicationContext.getBean(DrivermanageService.class)
 	        	.reqDriverassign(drivermanage);
 		}
 
