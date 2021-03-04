@@ -20,4 +20,4 @@ spec:
 #          ports:
 #            - containerPort: 8084
         - name: policy-handler
-          image: username/customer-policy-handler:v1
+          image: skuser08.azurecr.io/customer-policy-handler:v1

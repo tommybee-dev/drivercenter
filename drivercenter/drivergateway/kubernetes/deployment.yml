@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: skccteam03.azurecr.io/gateway:v1
+          image: skuser08.azurecr.io/gateway:v1
           ports:
             - containerPort: 8080

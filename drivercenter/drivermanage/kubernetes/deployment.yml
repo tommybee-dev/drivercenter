@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: drivermanage
-          image: skccteam03.azurecr.io/drivermanage:v1
+          image: skuser08.azurecr.io/drivermanage:v1
           ports:
             - containerPort: 8080
           readinessProbe:

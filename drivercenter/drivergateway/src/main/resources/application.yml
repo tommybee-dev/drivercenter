@@ -43,12 +43,12 @@ spring:
           uri: http://drivercall:8080
           predicates:
             - Path=/drivercalls/** 
-        - id: taximanage
-          uri: http://taximanage:8080
+        - id: drivermanage
+          uri: http://drivermanage:8080
           predicates:
-            - Path=/taximanages/** 
+            - Path=/drivermanages/** 
         - id: driverassign
-          uri: http://localhost:8080
+          uri: http://driverassign:8080
           predicates:
             - Path=/driverassigns/** 
       globalcors:

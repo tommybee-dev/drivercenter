@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: driverassign
-          image: skccteam03.azurecr.io/driverassign:v1
+          image: skuser08.azurecr.io/driverassign:v1
           ports:
             - containerPort: 8080
           readinessProbe:

@@ -161,31 +161,24 @@
 
 # 구현:
 
-서비스를 로컬에서 실행하는 방법은 아래와 같다 
-각 서비스별로 bat 파일로 실행한다. 
+서비스를 로컬에서 실행하는 방법은 아래와 같이 
+각 서비스별로 bat 파일형태로 실행합니다. 
 
 ```
-- run_taxicall.bat
-call setenv.bat
-REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\app\target\app-0.0.1-SNAPSHOT.jar --spring.profiles.active=docker
-REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\app\target\app-0.0.1-SNAPSHOT.jar --spring.profiles.active=default
-cd ..\taxiguider\taxicall
+- run_drivercall.bat
+cd ..\drivercenter\drivercall
 mvn clean spring-boot:run
 pause ..
 
-- run_taximanage.bat
+- run_dirvermanage.bat
 call setenv.bat
-REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\pay\target\pay-0.0.1-SNAPSHOT.jar --spring.profiles.active=docker
-REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\pay\target\pay-0.0.1-SNAPSHOT.jar --spring.profiles.active=default
-cd ..\taxiguider\taximanage
+cd ..\drivercenter\drivermanage
 mvn clean spring-boot:run
 pause ..
 
-- run_taxiassign.bat
+- run_driverassign.bat
 call setenv.bat
-REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\store\target\store-0.0.1-SNAPSHOT.jar --spring.profiles.active=docker
-REM java  -Xmx400M -Djava.security.egd=file:/dev/./urandom -jar food-delivery\store\target\store-0.0.1-SNAPSHOT.jar --spring.profiles.active=default
-cd ..\taxiguider\taxiassign
+cd ..\drivercenter\driverassign
 mvn clean spring-boot:run
 pause ..
 
@@ -194,20 +187,17 @@ call setenv.bat
 SET CONDA_PATH=%ANACONDA_HOME%;%ANACONDA_HOME%\BIN;%ANACONDA_HOME%\condabin;%ANACONDA_HOME%\Library\bin;%ANACONDA_HOME%\Scripts;
 SET PATH=%CONDA_PATH%;%PATH%;
 cd ..\taxiguider_py\customer\
-python policy-handler.py 
+python policy-handler-local.py 
 pause ..
 
 ```
 
 ## DDD 의 적용
-총 3개의 Domain 으로 관리되고 있으며, 택시요청(Taxicall) , 택시관리(TaxiManage), 택시할당(TaxiAssign) 으로 구성된다. 
+총 3개의 Domain 으로 관리되고 있으며, drivercall(대리기사요청) , drivermanage(대리기사관리), driverassign(대리기사할당) 으로 구성됩니다. 
 
+![drivercall](https://user-images.githubusercontent.com/7607807/109992057-3bda1080-7d4e-11eb-8485-2494c0ea8902.png)
 
-![DDD](https://user-images.githubusercontent.com/78134019/109460756-74ef5800-7aa4-11eb-8140-ec3ebb47a63f.jpg)
-
-
-![DDD_2](https://user-images.githubusercontent.com/78134019/109460847-9ea87f00-7aa4-11eb-8fe4-94dd57009cd4.jpg)
-
+![drivercall2](https://user-images.githubusercontent.com/7607807/109992060-3c72a700-7d4e-11eb-89aa-cc112839e499.png)
 
 
 ## 폴리글랏 퍼시스턴스
@@ -215,16 +205,18 @@ pause ..
 ```
 위치 : /taxiguider>taximanage>pom.xml
 ```
-![폴리그랏DB_최종](https://user-images.githubusercontent.com/78134019/109745194-d800fc00-7c16-11eb-87bd-2f65884a5f71.jpg)
+![폴리그랏DB_최종](https://user-images.githubusercontent.com/7607807/109992243-6d52dc00-7d4e-11eb-8a5b-caf920dc12a7.png)
 
 
 
 ## 폴리글랏 프로그래밍 - 파이썬
 ```
-위치 : /taxiguider_py>cutomer>policy-handler.py
+로컬용 위치 : /taxiguider_py>cutomer>policy-handler-local.py
+클라우드용 위치 : /taxiguider_py>cutomer>policy-handler.py
 ```
-![폴리그랏프로그래밍](https://user-images.githubusercontent.com/78134019/109745241-ebac6280-7c16-11eb-8839-6c974340839b.jpg)
+![python_local](https://user-images.githubusercontent.com/7607807/109992511-aee38700-7d4e-11eb-95a2-db701b745ed9.png)
 
+![python_external](https://user-images.githubusercontent.com/7607807/109992696-de928f00-7d4e-11eb-8cbd-19c02f8a000c.png)
 
 ## 마이크로 서비스 호출 흐름
 

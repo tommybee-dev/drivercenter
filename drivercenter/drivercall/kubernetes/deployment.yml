@@ -15,8 +15,8 @@ spec:
         app: drivercall
     spec:
       containers:
-        - name: taxicall
-          image: skccteam03.azurecr.io/drivercall:v1
+        - name: drivercall
+          image: skuser08.azurecr.io/drivercall:v2
           ports:
             - containerPort: 8080
           readinessProbe:
