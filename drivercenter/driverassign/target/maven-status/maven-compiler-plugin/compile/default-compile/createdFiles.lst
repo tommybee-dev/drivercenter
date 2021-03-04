@@ -1,0 +1,12 @@
+drivercenter\AbstractEvent.class
+drivercenter\DriverassignPolicyHandler.class
+drivercenter\Driverassign.class
+drivercenter\DriverassignController.class
+drivercenter\DrivermanageCancelled.class
+drivercenter\DrivermanageAssigned.class
+drivercenter\DriverassignRepository.class
+drivercenter\config\kafka\KafkaProcessor.class
+drivercenter\AbstractEvent$1.class
+drivercenter\DriverassignApplication.class
+drivercenter\DriverassignCancelled.class
+drivercenter\DriverassignCompleted.class

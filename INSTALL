@@ -1,0 +1,65 @@
+#90. run_etc.bat
+cd food-delivery\customer
+pip install --trusted-host pypi.python.org -r requirements.txt
+
+
+when we meet SSLError(SSLCertVerificationError
+https://stackoverflow.com/questions/25981703/pip-install-fails-with-connection-error-ssl-certificate-verify-failed-certi?page=1&tab=votes
+pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org <package_name>
+
+pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org Flask
+pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org Redis
+pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org kafka-python
+
+more extra tools
+pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org httpie
+
+마리아DB 설치
+1. 다운로드
+https://mariadb.com/kb/en/postdownload/mariadb-server-10-3-13/
+
+https://mariadb.org/download/
+
+
+사이트에서 64bit 압축파일을 다운로드 받았습니다.
+원하는 디렉토리에 풀어 줍니다.
+C:\DEV\Tools\Database\mariadb-10.3.13-winx64
+C:\DEV\Tools\Database\mariadb-10.5.9-winx64
+
+2. 마리아DB 인스톨
+netstat -ao 
+netstat -ano|find "3306"
+
+sc delete MariaDB
+
+
+cd C:\DEV\Tools\Database\mariadb-10.3.13-winx64
+mysql_install_db  --datadir=%MARIA_DATA%
+===
+Running bootstrap
+2021-02-23 13:23:18 0 [Note] C:\DEV\Tools\Database\mariadb-10.3.13-winx64\bin\mysqld.exe (mysqld 10.3.13-MariaDB) starting as process 34068 ...
+Removing default user
+Setting root password
+Creating my.ini file
+Registering service 'mariadb'
+===
+
+
+2. 마리아DB 구동
+my.cnf 파일 변경
+
+mysqld --defaults-file=%MARIA_HOME%\config\my.cnf --console
+
+
+3.마리아DB 접속
+mysql -u root --port 3385 --host localhost
+
+2. 마리아DB 중지
+mysqladmin -u root shutdown --port 3385
+
+
+
+
+참고 사이트
+https://blog.naver.com/tommybee/221099664245
+https://mariadb.com/kb/en/running-mariadb-from-the-build-directory/

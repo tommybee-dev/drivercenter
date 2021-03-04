@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: driverassign
+  labels:
+    app: driverassign
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: driverassign
+  template:
+    metadata:
+      labels:
+        app: driverassign
+    spec:
+      containers:
+        - name: driverassign
+          image: skccteam03.azurecr.io/driverassign:v1
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5

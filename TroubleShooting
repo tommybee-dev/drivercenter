@@ -1,0 +1,123 @@
+https://github.com/dpkp/kafka-python/issues/1482
+https://blog.stigok.com/2017/12/25/kafkapython-no-broker-available-with-kafka-on-localhost.html
+
+오류 메시지 이며, api_version을 명시 했다고 하는 데...
+Traceback (most recent call last):
+  File "policy-handler.py", line 11, in <module>
+    bootstrap_servers=['localhost:9092'])
+  File "C:\DEV\Tools\Miniconda3\lib\site-packages\kafka\consumer\group.py", line 356, in __init__
+    self._client = KafkaClient(metrics=self._metrics, **self.config)
+  File "C:\DEV\Tools\Miniconda3\lib\site-packages\kafka\client_async.py", line 244, in __init__
+    self.config['api_version'] = self.check_version(timeout=check_timeout)
+  File "C:\DEV\Tools\Miniconda3\lib\site-packages\kafka\client_async.py", line 927, in check_version
+    raise Errors.NoBrokersAvailable()
+kafka.errors.NoBrokersAvailable: NoBrokersAvailable
+
+몽고DB 로 전환 시에 해야 할 것들입니다.
+//for @PostPersist annotation
+https://www.baeldung.com/cascading-with-dbref-and-lifecycle-events-in-spring-data-mongodb
+https://sleeplessinslc.blogspot.com/2012/06/spring-data-mongodb-example.html
+https://github.com/ttrelle/spring-data-examples/blob/master/springdata-mongodb/src/main/java/mongodb/order/OrderBeforeSaveListener.java
+https://github.com/eugenp/tutorials/tree/master/persistence-modules/spring-boot-persistence-mongodb
+https://sleeplessinslc.blogspot.com/2012/06/spring-data-mongodb-example.html
+
+마리아 DB 설치 시에 포트 리슨을 못하는 문제 관련해서...
+https://stackoverflow.com/questions/58424707/unable-to-listen-on-specific-windows-10-ports
+
+3306 포트의 경우 윈도우 10에서 사용하는 excluded ports 리스트에 걸려 있으며, 이 포트의 범위는 HyperV 와 도커가 사용하는 범위라고 합니다.
+저는 도커와 HyperV를 설치 하였던 적이 있어서 이 포트의 리스닝 하지 못하도록 걸렸습니다.
+그리고 이 포트들을 다시 사용하도록 되돌리는 일은 그리 만만치 않다고 하네요
+답변자 말마따나 쓸데없는 짓일지도...
+
+다음의 저의 PC 에서 제외된 포트의 목록입니다.
+
+프로토콜 tcp 포트 제외 범위
+
+시작 포트    끝 포트
+----------    --------
+      1713        1812
+      2885        2984
+      2985        3084
+      3085        3184
+      3185        3284
+      3285        3384
+      8005        8005
+     50000       50059     *
+     56118       56118
+     59001       59001
+
+* - 관리 포트 제외입니다.
+
+마리아DB 환경설정 파일 my.inf
+
+# Begin /etc/mysql/my.cnf
+
+ 
+# The following options will be passed to all MySQL clients
+[client]
+password        = tommybee
+port            = 3385
+socket          = C:/DEV/Tools/Database/mariadb-10.3.13-winx64/run/mysqld/mysqld.sock
+ 
+# The MySQL server
+[mysqld]
+port            = 3385
+socket          = C:/DEV/Tools/Database/mariadb-10.3.13-winx64/mysqld/mysqld.sock
+# datadir         = C:/DEV/Tools/Database/mariadb-10.3.13-winx64/data
+datadir         = D:/DEV/DATA/mariadb
+skip-external-locking
+#enable-named-pipe           # this line
+key_buffer_size = 16M
+max_allowed_packet = 1M
+sort_buffer_size = 512K
+net_buffer_length = 16K
+myisam_sort_buffer_size = 8M
+ 
+# Don't listen on a TCP/IP port at all.
+#skip-networking
+ 
+# required unique id between 1 and 2^32 - 1
+server-id       = 1
+ 
+# Uncomment the following if you are using BDB tables
+#bdb_cache_size = 4M
+#bdb_max_lock = 10000
+ 
+# InnoDB tables are now used by default
+innodb_data_home_dir = D:/DEV/DATA/mariadb
+innodb_log_group_home_dir = D:/DEV/DATA/mariadb
+# All the innodb_xxx values below are the default ones:
+innodb_data_file_path = ibdata1:12M:autoextend
+# You can set .._buffer_pool_size up to 50 - 80 %
+# of RAM but beware of setting memory usage too high
+innodb_buffer_pool_size = 128M
+innodb_log_file_size = 48M
+innodb_log_buffer_size = 16M
+innodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 50
+ 
+[mysqldump]
+quick
+max_allowed_packet = 16M
+ 
+[mysql]
+no-auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+ 
+[isamchk]
+key_buffer = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+ 
+[myisamchk]
+key_buffer_size = 20M
+sort_buffer_size = 20M
+read_buffer = 2M
+write_buffer = 2M
+ 
+[mysqlhotcopy]
+interactive-timeout
+ 
+# End /etc/mysql/my.cnf

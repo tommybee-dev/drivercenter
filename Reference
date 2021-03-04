@@ -1,0 +1,8 @@
+클래스에 적용한 이벤트는 다음 시점에 호출된다
+@PostLoad : 해당 엔티티를 새로 불러오거나 refresh 한 이후
+@PrePersist : 해당 엔티티를 저장하기 이전
+@PostPersist: 해당 엔티티를 저장한 이후
+@PreUpdate : 해당 엔티티를 업데이트 하기 이전
+@PostUpdate : 해당 엔티티를 업데이트 한 이후
+@PreRemove : 해당 엔티티를 삭제하기 이전
+@PostRemove : 해당 엔티티를 삭제한 이후
