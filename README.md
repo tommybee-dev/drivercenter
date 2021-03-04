@@ -645,7 +645,7 @@ drivercall > deployment.yml 설정
 ![image](https://user-images.githubusercontent.com/73699193/98187434-44fbd200-1f54-11eb-9859-daf26f812788.png)
 
 ```
-kubectl autoscale deploy drivercall --min=1 --max=2 --cpu-percent=15
+kubectl autoscale deploy drivercall --min=1 --max=10 --cpu-percent=15
 ```
 ![스트레스테스트](screenshots/replica.png "replica")
 
@@ -715,44 +715,50 @@ watch kubectl get all
 
 ## Config Map
 
-- apllication.yml 설정
+코드를 다음과 같이 구성합니다.
+```
+Long defaultSleep = Long.valueOf(System.getenv().getOrDefault("SLEEP_ME", "0"));
+    	
+System.out.println("SLEEPING.............." + defaultSleep);
 
-* default쪽
-
-![image](https://user-images.githubusercontent.com/73699193/98108335-1c85c080-1edf-11eb-9d0f-1f69e592bb1d.png)
-
-* docker 쪽
-
-![image](https://user-images.githubusercontent.com/73699193/98108645-ad5c9c00-1edf-11eb-8d54-487d2262e8af.png)
+try {
+	Thread.sleep(defaultSleep);
+} catch (InterruptedException e) {
+	e.printStackTrace();
+}
+```
+![스트레스테스트](screenshots/code.png "completed")
 
 - Deployment.yml 설정
 
-![image](https://user-images.githubusercontent.com/73699193/98108902-12b08d00-1ee0-11eb-8f8a-3a3ea82a635c.png)
+![스트레스테스트](screenshots/code2.png "completed")
 
 - config map 생성 후 조회
 ```
-kubectl create configmap apiurl --from-literal=url=http://pay:8080 --from-literal=fluentd-server-ip=10.xxx.xxx.xxx -n phone82
+kubectl create configmap delay-conf --from-literal=sleeptime=20
 ```
-![image](https://user-images.githubusercontent.com/73699193/98107784-5bffdd00-1ede-11eb-8da6-82dbead0d64f.png)
+![스트레스테스트](screenshots/confmap.png "confmap")
 
-- 설정한 url로 주문 호출
+- url을 호출하고 pod의 로그를 다음과 같이 확인 합니다.
 ```
-http POST http://app:8080/orders item=dfdf1 qty=21
+http http://52.231.77.197:8080/drivercalls/ tel="01012345678" location="마포아파트" status="호출" cost=30000
 ```
+![스트레스테스트](screenshots/logconfirm.png "logconfirm")
 
-![image](https://user-images.githubusercontent.com/73699193/98109319-b732cf00-1ee0-11eb-9e92-ad0e26e398ec.png)
+- configmap 삭제 후 drivercall 서비스 재시작
+```
+kubectl delete configmap delay-conf -n skuser08ns
+kubectl get pod/drivercall-69b68f4bbf-mj58g -n skuser08ns -o yaml | kubectl replace --force -f-
+```
+![스트레스테스트](screenshots/del1.png "del1")
 
-- configmap 삭제 후 app 서비스 재시작
+- configmap 삭제된 상태에서 서비스 호출   
 ```
-kubectl delete configmap apiurl -n phone82
-kubectl get pod/app-56f677d458-5gqf2 -n phone82 -o yaml | kubectl replace --force -f-
+http http://52.231.77.197:8080/drivercalls/ tel="01012345678" location="마포아파트" status="호출" cost=30000
 ```
-![image](https://user-images.githubusercontent.com/73699193/98110005-cf571e00-1ee1-11eb-973f-2f4922f8833c.png)
+![스트레스테스트](screenshots/error0.png "error0")
 
-- configmap 삭제된 상태에서 주문 호출   
-```
-http POST http://app:8080/orders item=dfdf2 qty=22
-```
+![스트레스테스트](screenshots/error.png "error")
 ![image](https://user-images.githubusercontent.com/73699193/98110323-42f92b00-1ee2-11eb-90f3-fe8044085e9d.png)
 
 ![image](https://user-images.githubusercontent.com/73699193/98110445-720f9c80-1ee2-11eb-851e-adcd1f2f7851.png)
@@ -786,7 +792,6 @@ livenessProbe:
 
 ![스트레스테스트](screenshots/livenessProbe2.png "livenessProbe")
 
-- store 서비스의 liveness가 발동되어 13번 retry 시도 한 부분 확인
+- store 서비스의 liveness가 발동되어 11번 retry 시도 한 부분 확인
 
-![image](https://user-images.githubusercontent.com/27958588/98096461-20a9e200-1ecf-11eb-8b02-364162baa355.jpg)
-
+![스트레스테스트](screenshots/livenessProbe3.png "livenessProbe")

@@ -53,12 +53,16 @@ public class Drivercall {
 	        	.reqDriverassign(drivermanage);
 		}
     	
+    	//kubectl create configmap delay-conf --from-literal=sleeptime=20
+    	Long defaultSleep = Long.valueOf(System.getenv().getOrDefault("SLEEP_ME", "0"));
     	
-//    	try {
-//			Thread.sleep(5000);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+    	System.out.println("SLEEPING.............." + defaultSleep);
+    	
+    	try {
+			Thread.sleep(defaultSleep);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
     }
 
