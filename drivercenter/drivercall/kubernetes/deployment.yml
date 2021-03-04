@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: drivercall
-          image: skuser08.azurecr.io/drivercall:v6
+          image: skuser08.azurecr.io/drivercall:v9
           ports:
             - containerPort: 8080
           readinessProbe:

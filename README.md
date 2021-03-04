@@ -625,7 +625,7 @@ siege -c200 -t60S -r10 -v --content-type "application/json" 'http://drivercall:8
 ```
 - 부하 발생하여 CB가 발동하여 요청 실패처리하였고, 밀린 부하가 대리기사호출 시스템에서 처리되면서 다시 호출을 받기 시작 
 
-![스트레스테스트](screenshots/stresstest.png "stresstest")
+![스트레스테스트](screenshots/stresstest2.png "stresstest")
 
 - report
 
@@ -655,20 +655,18 @@ kubectl autoscale deploy drivercall --min=1 --max=10 --cpu-percent=15
 kubectl exec -it pod/siege -c siege -n skuser08ns -- /bin/bash
 siege -c200 -t60S -r10 -v --content-type "application/json" 'http://drivercall:8080/drivercalls/ POST {"tel": "1234567890", "cost":3000}'
 ```
-![image](https://user-images.githubusercontent.com/73699193/98102543-0d9b1000-1ed7-11eb-9cb6-91d7996fc1fd.png)
+![스트레스테스트](screenshots/autoscale1.png "replica")
 
 - 오토스케일이 어떻게 되고 있는지 모니터링을 걸어둔다:
 ```
-kubectl get deploy store -w -n phone82
+kubectl get deploy drivercall -w -n skuser08ns
 ```
 - 어느정도 시간이 흐른 후 스케일 아웃이 벌어지는 것을 확인할 수 있다. max=10 
 - 부하를 줄이니 늘어난 스케일이 점점 줄어들었다.
-
-![image](https://user-images.githubusercontent.com/73699193/98102926-92862980-1ed7-11eb-8f19-a673d72da580.png)
+![스트레스테스트](screenshots/autoscale3.png "replica")
 
 - 다시 부하를 주고 확인하니 Availability가 높아진 것을 확인 할 수 있었다.
-
-![image](https://user-images.githubusercontent.com/73699193/98103249-14765280-1ed8-11eb-8c7c-9ea1c67e03cf.png)
+![스트레스테스트](screenshots/avail.png "replica")
 
 
 ## 무정지 재배포
