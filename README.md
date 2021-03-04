@@ -462,8 +462,10 @@ http http://localhost:8088/driverscalls/ tel="01012345678" location="마포아�
 
 
 ## MSA 서비스 빌드
+
 <gateway>
-![mvn_gateway](screenshots/mvn_gateway.png "mvn_gateway")
+
+![mvn_gateway](screenshots/mvn_gateway.png "mvn_gateway.png")
 	
 <drivercall>
 	
