@@ -766,11 +766,10 @@ http http://52.231.77.197:8080/drivercalls/ tel="01012345678" location="마포�
 ## Self-healing (Liveness Probe)
 
 - drivercall 서비스 정상 확인
-
-![image](https://user-images.githubusercontent.com/27958588/98096336-fb1cd880-1ece-11eb-9b99-3d704cd55fd2.jpg)
-
+![스트레스테스트](screenshots/phon82.png "phon82")
 
 - deployment.yml 에 Liveness Probe 옵션 추가
+
 ```
 cd ~/drivercenter/drivercall/kubernetes
 vi deployment.yml
