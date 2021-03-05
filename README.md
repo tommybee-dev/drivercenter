@@ -700,7 +700,7 @@ cd acr
 az acr build --registry skuser08 --image skuser08.azurecr.io/drivercall:v10 .
 kubectl set image deploy drivercall drivercall=skuser08.azurecr.io/drivercall:v10 -n skuser08ns
 ```
-- 기존 버전과 새 버전의 store pod 같이 있는 것을 확인 할 수 있습니다.
+- 기존 버전과 새 버전의 drivercall pod 같이 있는 것을 확인 할 수 있습니다.
 
 ```
 watch kubectl get all
